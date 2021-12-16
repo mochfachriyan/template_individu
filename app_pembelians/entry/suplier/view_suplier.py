@@ -1,5 +1,5 @@
-from app_pembelians.entry.suplier import app_suplier, controller_suplier
-from flask import render_template, redirect, url_for
+from app_pembelians.entry.suplier import app_suplier, controller_suplier, model_suplier
+from flask import app, render_template, redirect, url_for, request
   
 @app_suplier.route('/suplier-json', methods=['GET', 'POST'])
 def suplierJson():
@@ -16,16 +16,21 @@ def suplierJsonDetails(id_suplier):
 
 @app_suplier.route('/')
 def index():
-    return redirect(url_for('suplier.home'))
+  return redirect(url_for('suplier.home'))
 
 @app_suplier.route('/home')
 def home():
-    return render_template('dashboard.html')
+  return render_template('dashboard.html')
   
 @app_suplier.route('/suplier')
 def suplier():
-    data = controller_suplier.suplierData()
-    return render_template('suplier/suplier.html', suplier = data)
+  data = controller_suplier.suplierData()
+  return render_template('suplier/suplier.html', suplier = data)
+  
+@app_suplier.route('/tambah-suplier', methods=['GET', 'POST'])
+def tambah_suplier():
+  return controller_suplier.tambahSuplier()
+  
   
 
 
