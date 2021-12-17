@@ -14,4 +14,5 @@ def barang_data_detail(id_suplier):
 
 @app_barang.route('/barang')
 def barang():
-    return render_template('barang/barang.html')
+  data = controller_barang.barangData()
+  return render_template('barang/barang.html', barang=data)

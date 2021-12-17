@@ -8,5 +8,11 @@ class barang(db.Model):
     id_suplier = db.Column(db.Integer)
     keterangan = db.Column(db.String(200))
     
+    def __init__(self, nama_barang, harga, id_suplier, keterangan):
+      self.nama_barang = nama_barang
+      self.harga       = harga
+      self.id_suplier  = id_suplier
+      self.keterangan  = keterangan
+      
     def __repr__(self):
       return '<barang {}>'.format(self.name)

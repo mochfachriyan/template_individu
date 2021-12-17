@@ -5,13 +5,20 @@ from app_pembelians.entry.suplier import controller_suplier, model_suplier
 from flask import jsonify
 
 # ---------------------------MENAMPILKAN SEMUA DATA BARANG--------------------------------#
-def barangData(): 
+def barangDataJson(): 
   try:
     barang = model_barang.barang.query.all() # ini kalau di Oracle seperti Select * from barang
     data = formatArray(barang) 
     return response.success(data, "success")
   except Exception as e: 
     print(e)
+
+def barangData(): # deff adalah function
+  # select * FROM
+  barang = model_barang.barang.query.all() # ini ksuplier.query.all() # ini kalau di Oracle macem Select * from suplier
+  return barang # ngereturn dari response.py kelas succes
+   
+
     
 # ---------------------------MENAMPILKAN DETAIL DATA BARANG--------------------------------#    
 # def barangDataDetail(id): 

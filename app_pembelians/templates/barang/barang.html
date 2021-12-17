@@ -40,13 +40,15 @@
       </tr>
       </thead>
           <tbody>
-            {% for row in container %}
+            {% for row in barang %}
             <tr>
-               <td>{{ row.0 }}</td>
-               <td>{{ row.1 }}</td>
-               <td>{{ row.2 }}</td>
-               <td>{{ row.6 }}</td>
-               <td>{{ row.4 }}</td>
+               <td>{{ row.id_barang }}</td>
+               <td>{{ row.nama_barang }}</td>
+               <td>{{ row.harga }}</td>
+               <!-- <td>{{ row.nama_suplier }}</td> -->
+               <td>{{ row.status }}</td>
+               
+
                <!-- BUTTON EDIT BARANG DATA TARGET LANGSUNG KE SHOW MODAL -->
                <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editBarang{{ row.0 }}">Edit</button></td>
                <!-- BUTTON HAPUS MENGGUNAKAN HREF KE ALAMAT ROUTE -->
@@ -68,7 +70,7 @@
                       <div class="container">
                           <div class="col-sm-5">
                           <h2>Ubah Data Barang</h2>
-                             <form action="{{ url_for('edit_barang') }}" method="post">
+                             <form action="#" method="post">
                                 <div class="form-group">
                                    <input type="hidden" name="id_barang"  value="{{row[0]}}" class="form-control" />
                                 </div>

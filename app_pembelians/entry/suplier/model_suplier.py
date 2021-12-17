@@ -1,5 +1,7 @@
 from app_pembelians import db
-from flask import flash
+from flask import flash, request
+
+from app_pembelians.entry.suplier import view_suplier
 
 class suplier(db.Model):
     # __tablename__ = 'suplier'
@@ -15,16 +17,3 @@ class suplier(db.Model):
     
     def __repr__(self):
       return '<suplier {}>'.format(self.name)
-    
-def tambahSuplier(nama, no_tlp, alamat):
-    new_suplier = suplier(nama, no_tlp, alamat)
-    try:
-        # Actually add this dessert to the database
-        db.session.add(new_suplier)
-
-        # Save all pending changes to the database
-        db.session.commit()
-        flash('You have successfully created a new suplier')
-        return new_suplier
-    except:
-        return 'There was an issue adding suplier'

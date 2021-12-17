@@ -1,3 +1,4 @@
+import re
 from app_pembelians.entry.suplier import app_suplier, controller_suplier, model_suplier
 from flask import app, render_template, redirect, url_for, request
   
@@ -13,7 +14,6 @@ def suplierJsonDetails(id_suplier):
 
 
 # -----------------------------FRONTEND--------------------------------# 
-
 @app_suplier.route('/')
 def index():
   return redirect(url_for('suplier.home'))
@@ -26,18 +26,18 @@ def home():
 def suplier():
   data = controller_suplier.suplierData()
   return render_template('suplier/suplier.html', suplier = data)
-  
+
+# TAMBAH SUPLIER  
 @app_suplier.route('/tambah-suplier', methods=['GET', 'POST'])
 def tambah_suplier():
   return controller_suplier.tambahSuplier()
-  
-  
 
+# EDIT SUPLIER  
+@app_suplier.route('/edit-suplier/', methods=['GET', 'POST'])
+def edit_suplier():
+  return controller_suplier.editSuplier()
 
-   
-
-
-# @app_suplier.route('/suplier')
-# def suplier():
-#     return render_template('suplier/suplier.html')
-  
+# HAPUS SUPLIER  
+@app_suplier.route('/hapus-suplier/<id_suplier>', methods=['GET', 'POST'])
+def hapus_suplier(id_suplier):
+  return controller_suplier.hapusSuplier(id_suplier)
