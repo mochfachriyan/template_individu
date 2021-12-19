@@ -7,8 +7,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Create the super class
 class Config(object):
   SECRET_KEY = os.environ.get('SECRET_KEY')
-  SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-  SQLALCHEMY_TRACK_MODIFICATIONS = False
+  # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+  # SQLALCHEMY_TRACK_MODIFICATIONS = False
   
   
 # Create the development config
@@ -25,6 +25,7 @@ class DevelopmentConfig(Config):
   SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://' + USERNAME + ':' + PASSWORD + '@' + HOST + '/' + DATABASE
   SQLALCHEMY_TRACK_MODIFICATIONS = False
   SQLALCHEMY_RECORD_QUERIES = True 
+  
   
   
 

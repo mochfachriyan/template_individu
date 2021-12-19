@@ -15,6 +15,10 @@ def app_pembelians(config=DevelopmentConfig):
   app = Flask(__name__)
   app.config.from_object(config)
   
+  # # Untuk konfigurasi upload file dan directorie file
+  # UPLOAD_FOLDER = 'App/static/files'
+  # app.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER  
+  
   # initialize extension instances
   db.init_app(app)
   db.app = app

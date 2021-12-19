@@ -24,8 +24,22 @@
     <a type="button" class="btn btn-primary" href="/barang-export-csv" > Export to CSV</a>
     <a type="button" class="btn btn-primary" href="/barang-upload-csv" > Import CSV</a>
     <a type="button" class="btn btn-primary" href="/barang-upload-excel" > Import Excel</a>
-
     </h1>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissable container" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="close">
+              <span aria-hidden="true">x</span>
+          </button>
+        {{message}}
+      </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
    <div class="container">
      
    <table width="10px" class="table table-bordered table-hover">
@@ -42,23 +56,23 @@
           <tbody>
             {% for row in barang %}
             <tr>
-               <td>{{ row.id_barang }}</td>
-               <td>{{ row.nama_barang }}</td>
-               <td>{{ row.harga }}</td>
-               <!-- <td>{{ row.nama_suplier }}</td> -->
-               <td>{{ row.status }}</td>
+               <td>{{ row.barang.id_barang }}</td>
+               <td>{{ row.barang.nama_barang }}</td>
+               <td>{{ row.barang.harga }}</td>
+               <td>{{ row.suplier.nama_suplier }}</td>
+               <td>{{ row.barang.status }}</td>
                
 
                <!-- BUTTON EDIT BARANG DATA TARGET LANGSUNG KE SHOW MODAL -->
-               <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editBarang{{ row.0 }}">Edit</button></td>
+               <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editBarang{{ row.barang.id_barang }}">Edit</button></td>
                <!-- BUTTON HAPUS MENGGUNAKAN HREF KE ALAMAT ROUTE -->
-               <td><a href="/hapus-barang/{{row[0]}}" class="btn btn-danger" role="button">Hapus</a></td>
+               <td><a href="/hapus-barang/{{ row.barang.id_barang }}" class="btn btn-danger" role="button">Hapus</a></td>
             </tr>
 
             <!-- MODAL EDIT DATA -->
             <div class="container">
               <!-- Modal -->
-              <div class="modal fade" id="editBarang{{ row.0 }}" role="dialog">
+              <div class="modal fade" id="editBarang{{ row.barang.id_barang }}" role="dialog">
                 <div class="modal-dialog">
                 
                   <!-- Modal content-->
@@ -70,33 +84,33 @@
                       <div class="container">
                           <div class="col-sm-5">
                           <h2>Ubah Data Barang</h2>
-                             <form action="#" method="post">
+                             <form action="{{ url_for('barang.edit_barang') }}" method="post">
                                 <div class="form-group">
-                                   <input type="hidden" name="id_barang"  value="{{row[0]}}" class="form-control" />
+                                   <input type="hidden" name="id_barang"  value="{{row.barang.id_barang}}" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                    <label>Nama Barang:</label>
-                                   <input type="text" name="nama"  value="{{row[1]}}" class="form-control" placeholder="Masukan nama barang" required />
+                                   <input type="text" name="nama"  value="{{row.barang.nama_barang}}" class="form-control" placeholder="Masukan nama barang" required />
                                 </div>
                                 <div class="form-group">
                                    <label>Harga:</label> 
-                                   <input type="number" name="harga"  value="{{row[2]}}" class="form-control" placeholder="Masukan harga" />
+                                   <input type="number" name="harga"  value="{{row.barang.harga}}" class="form-control" placeholder="Masukan harga" />
                                 </div>
                                 <div class="form-group">
                                   <label>Nama Suplier:</label> 
                                   <select name= "id_suplier" class="form-control" placeholder="Pilih Nama Suplier" required>
                                     <!-- Menambahkan dari table row lalu menmbahkan dari table suplier  -->
-                                    <option hidden value="{{row.5}}" selected>{{ row.6 }}</option>  
+                                    <option hidden value="{{row.suplier.id_suplier}}" selected>{{ row.suplier.nama_suplier }}</option>  
                                     {% for i in suplier %}
-                                      <option value= "{{i[0]}}"> {{i[1]}}</option>
+                                      <option value= "{{i.id_suplier}}"> {{i.nama_suplier}}</option>
                                     {% endfor %}
                                 </select>
                                 </div>
                                 <div class="form-group">
-                                  <label>Status:</label> {{ status }}
+                                  <label>Status:</label>
                                   <select name= "status" class="form-control" placeholder="Pilih Status" required>
                                     <!-- Menambahkan dari table row lalu menmbahkan dari table suplier  -->
-                                    <option hidden value= "{{ row[4] }}" selected> {{ row[4]}}</option>
+                                    <option hidden value= "{{ row.barang.status }}" selected> {{ row.barang.status}}</option>
                                     {% for data in status %}
                                       <option value= "{{ data.status }}"> {{data.status}}</option>
                                     {% endfor %}
@@ -135,7 +149,7 @@
             <div class="container">
                 <div class="col-sm-5">
                 <h2 style="text-align: center; margin-top: 0;">Tambah Data Barang</h2><br>
-                    <form action="" method="post"> 
+                    <form action="{{ url_for('barang.tambah_barang') }}" method="post"> 
                       <div class="form-group">
                          <label>Nama Barang:</label>
                          <input type="text" name="nama" class="form-control" placeholder="Masukan nama barang" required />
@@ -145,7 +159,7 @@
                         <select name="id_suplier" class="form-control" placeholder="Pilih Nama Suplier" required>
                           <option value="" selected>-Pilih-</option> 
                           {% for i in suplier %}
-                            <option value= "{{i.0}}"> {{i.1}}</option>
+                            <option value= "{{i.id_suplier}}"> {{i.nama_suplier}}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -160,7 +174,6 @@
                           {% for data in status %}
                             <option value= "{{ data.status }}"> {{data.status}}</option>
                           {% endfor %}
-                          
                         </select>
                      </div>
                   

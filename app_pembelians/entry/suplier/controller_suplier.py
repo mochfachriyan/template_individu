@@ -4,6 +4,7 @@ from app_pembelians.entry.barang import controller_barang, model_barang
 from app_pembelians.entry.suplier import model_suplier
 from flask import jsonify, request, redirect, url_for, flash
 from app_pembelians import db
+import xlrd, os
 
 
 # -------------------------------- MENAMPILKAN SEMUA DATA SUPLIER --------------------------------#
@@ -37,7 +38,7 @@ def editSuplier():
   suplier.alamat = request.form['alamat']
 
   db.session.commit()
-  flash("Employee Updated Successfully")
+  flash("Suplier Updated Successfully")
   return redirect(url_for('suplier.suplier'))
   
 # -------------------------------- HAPUS DATA SUPLIER --------------------------------#
@@ -45,8 +46,47 @@ def hapusSuplier(id_suplier):
   suplier = model_suplier.suplier.query.get(id_suplier)
   db.session.delete(suplier)
   db.session.commit()
-  flash("Employee Deleted Successfully")
+  flash("Suplier Deleted Successfully")
   return redirect(url_for('suplier.suplier'))
+
+
+# ------------------------------------- IMPORT EXCEL ----------------------------------------- #
+# def uploadFilesExcel():
+#   # get the uploaded file
+#   uploaded_file = request.files['file']
+#   if uploaded_file.filename != '':
+#     file_path = os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename)
+#     # set the file path
+#     uploaded_file.save(file_path)
+#     parseEXCEL(file_path)
+#     # save the file
+#   return redirect(url_for('suplier'))
+
+# def parseEXCEL(filePath):
+#   return 'hallo'
+  # book = xlrd.open_workbook(filePath)
+  # # sheet = book.sheet_by_name('suplier')
+  # sheet = book.sheet_by_index(0)
+  
+  # cursor = mysql.connection.cursor()
+  # query = 'INSERT INTO suplier (nama_suplier, no_telp, alamat) VALUES (%s, %s, %s)'
+  
+  # for row in range(1, sheet.nrows):
+  #       nama     = sheet.cell(row,0).value
+  #       tlp      = sheet.cell(row,1).value
+  #       alamat   = sheet.cell(row,2).value
+  #       print(nama)
+  #       values = (nama, tlp, alamat)
+  #       cursor.execute(query, values)
+  #       mysql.connection.commit()
+        
+  # cursor.close()
+
+
+
+
+
+
 
 
     

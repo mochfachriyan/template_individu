@@ -16,4 +16,4 @@ class suplier(db.Model):
       self.alamat        = alamat
     
     def __repr__(self):
-      return '<suplier {}>'.format(self.name)
+      return '<suplier {}>'.format(self.id_suplier)

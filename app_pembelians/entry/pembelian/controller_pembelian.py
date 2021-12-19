@@ -2,7 +2,7 @@ from app_pembelians.entry import pembelian
 from app_pembelians.entry.pembelian import model_pembelian
 from flask import jsonify
 
-def pembelianData(): # deff adalah function
+def pembelianDataJson(): # deff adalah function
   # select * FROM
   pembelian = model_pembelian.pembelian.query.all() # ini kalau di Oracle macem Select * from suplier
   data = formatArray(pembelian) #
@@ -14,6 +14,11 @@ def userData():
   dataUser = user
   return jsonify(dataUser) # ngereturn dari response.py kelas
 # ------------------------------------------------------------------------------------#
+    
+# -------------------------------- MENAMPILKAN SEMUA DATA SUPLIER --------------------------------#
+def pembelianData(): 
+  pembelian = model_pembelian.pembelian.query.all() 
+  return pembelian   
     
 
 # function untuk format array nya Dosen

@@ -11,7 +11,7 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    {% extends 'publik/layout.html' %}
+    {% extends 'layout.html' %}
 
     {% block content %}
     <h2>PEMBELIAN BARANG</h2> 
@@ -33,12 +33,12 @@
            </tr>
            </thead>
                <tbody>
-                 {% for row in container %}
+                 {% for row in pembelian %}
                   <tr>
-                    <td>{{ row.0 }}</td>
-                    <td>{{ row.11 }}</td>
-                    <td>{{ row.6 }}</td>
-                    <td>{{ row.7 }}</td>
+                    <td>{{ row.id_pembelian }}</td>
+                    <td>{{ row.id_user }}</td>
+                    <td>{{ row.id_barang }}</td>
+                    <td>{{ row.harga }}</td>
                  
                     <!-- <td>{{ row.3 }}</td> -->
                     <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editPembelian{{ row.0 }}">Edit</button></td>
@@ -61,7 +61,7 @@
                             <div class="container">
                                 <div class="col-sm-5">
                                 <h2>Ubah Data Pembelian</h2>
-                                  <form action="{{ url_for('edit_pembelian') }}" method="post">
+                                  <form action="#" method="post">
                                       <div class="form-group">
                                         <input type="hidden" name="id_pembelian"  value="{{row[0]}}" class="form-control" />
                                       </div>
@@ -134,7 +134,7 @@
               <div class="container">
                   <div class="col-sm-5">
                   <h2 style="text-align: center; margin-top: 0;">Tambah Data Pembelian</h2><br>
-                      <form action="{{ url_for('tambah_pembelian') }}" method="post">
+                      <form action="#" method="post">
                         
                         <div class="form-group">
                           <label>Nama User:</label> 

@@ -41,3 +41,13 @@ def edit_suplier():
 @app_suplier.route('/hapus-suplier/<id_suplier>', methods=['GET', 'POST'])
 def hapus_suplier(id_suplier):
   return controller_suplier.hapusSuplier(id_suplier)
+
+
+# IMPORT EXCEL
+@app_suplier.route('/suplier-upload-excel')
+def upload_suplier_excel():
+  return render_template('suplier/uploadSuplierExcel.html')
+
+@app_suplier.route('/suplier-save-excel', methods=['POST'])
+def save_files_excel():
+  return controller_suplier.uploadFilesExcel()

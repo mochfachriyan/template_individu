@@ -1,25 +1,57 @@
+from werkzeug.wrappers import request
 from app_pembelians import response
 from app_pembelians.entry import barang
 from app_pembelians.entry.barang import model_barang
 from app_pembelians.entry.suplier import controller_suplier, model_suplier
-from flask import jsonify
+from flask import jsonify, request, flash, redirect, url_for
+from app_pembelians import db
+
 
 # ---------------------------MENAMPILKAN SEMUA DATA BARANG--------------------------------#
 def barangDataJson(): 
-  try:
-    barang = model_barang.barang.query.all() # ini kalau di Oracle seperti Select * from barang
-    data = formatArray(barang) 
-    return response.success(data, "success")
-  except Exception as e: 
-    print(e)
+  barang = model_barang.barang.query.all() # ini kalau di Oracle seperti Select * from barang
+  data = formatArray(barang) 
+  return response.success(data, "success")
 
-def barangData(): # deff adalah function
-  # select * FROM
-  barang = model_barang.barang.query.all() # ini ksuplier.query.all() # ini kalau di Oracle macem Select * from suplier
-  return barang # ngereturn dari response.py kelas succes
+
+def barangData(): 
+  query = model_barang.joinBarangSUplier()
+  return query
+
+# -------------------------------- TAMBAH DATA BARANG --------------------------------#
+def tambahBarang():
+  nama_barang = request.form['nama']
+  harga = request.form['harga']
+  id_suplier = request.form['id_suplier']
+  status = request.form['status']
+  
+  barang = model_barang.barang(nama_barang,harga,id_suplier,status)
+  db.session.add(barang)
+  db.session.commit()   
+  flash('You have successfully created a new Barang')
+  return redirect(url_for('barang.barang'))
+
+# -------------------------------- EDIT DATA SUPLIER --------------------------------#
+def editBarang():
+  barang = model_barang.barang.query.get(request.form.get('id_barang'))
+  barang.nama_barang = request.form['nama']
+  barang.harga  = request.form['harga']
+  barang.id_suplier = request.form['id_suplier']
+  barang.status = request.form['status']
+
+  db.session.commit()
+  flash("barang Updated Successfully")
+  return redirect(url_for('barang.barang'))
+
+# -------------------------------- HAPUS DATA SUPLIER --------------------------------#
+def hapusBarang(id_barang):
+  barang = model_barang.barang.query.get(id_barang)
+  db.session.delete(barang)
+  db.session.commit()
+  flash("Barang Deleted Successfully")
+  return redirect(url_for('barang.barang'))
    
 
-    
 # ---------------------------MENAMPILKAN DETAIL DATA BARANG--------------------------------#    
 # def barangDataDetail(id): 
 #   try:
@@ -55,7 +87,7 @@ def singleObject(data):
     'nama_barang':data.nama_barang,
     'harga':data.harga,
     'id_suplier':data.id_suplier,
-    'keterangan':data.keterangan
+    'status':data.status
   }
   return data
 
@@ -63,4 +95,3 @@ def singleObject(data):
 
 
         
-
