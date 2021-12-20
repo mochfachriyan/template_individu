@@ -24,17 +24,17 @@ def barang():
   suplier = controller_suplier.suplierData()
   return render_template('barang/barang.html', barang=barang, suplier=suplier, status=status)
 
-# TAMBAH SUPLIER  
+# TAMBAH BARANG  
 @app_barang.route('/tambah-barang', methods=['GET', 'POST'])
 def tambah_barang():
   return controller_barang.tambahBarang()
 
-# EDIT SUPLIER  
+# EDIT BARANG  
 @app_barang.route('/edit-barang/', methods=['GET', 'POST'])
 def edit_barang():
   return controller_barang.editBarang()
 
-# HAPUS SUPLIER  
+# HAPUS BARANG  
 @app_barang.route('/hapus-barang/<id_barang>', methods=['GET', 'POST'])
 def hapus_barang(id_barang):
   return controller_barang.hapusBarang(id_barang)

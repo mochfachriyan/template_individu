@@ -1,10 +1,11 @@
 from app_pembelians import db
+from app_pembelians.entry.barang import model_barang
 
 class pembelian(db.Model):
     # __tablename__ = 'pembelian'
     id_pembelian = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'))
-    id_barang = db.Column(db.Integer)
+    id_barang = db.Column(db.Integer, db.ForeignKey('barang.id_barang'))
     tanggal = db.Column(db.DateTime)
     keterangan = db.Column(db.String(200))
    
@@ -37,11 +38,12 @@ class user(db.Model):
     
 
 # tes = db.session.query(pembelian, user).join(user).all()
+barang = model_barang.barang
 
-# def joinPembelianUSer():
-#   results = db.session.query(pembelian, user).join(user).all()
-#   data = results
-#   return data
+def joinPembelian():
+  results = db.session.query(pembelian, user, barang). \
+  select_from(pembelian).join(user).join(barang).all()
+  return results
 
 # for pembelian, user in tes:
 #   print(pembelian.id_user, user.nama)

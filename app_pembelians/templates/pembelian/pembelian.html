@@ -19,6 +19,19 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahPembelian">Tambah Data</button>
       </h1>
 
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success alert-dismissable container" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true">x</span>
+            </button>
+          {{message}}
+        </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
     <div class="container">
         <table width="10px" class="table table-bordered table-hover">
            <thead>
@@ -35,21 +48,21 @@
                <tbody>
                  {% for row in pembelian %}
                   <tr>
-                    <td>{{ row.id_pembelian }}</td>
-                    <td>{{ row.id_user }}</td>
-                    <td>{{ row.id_barang }}</td>
-                    <td>{{ row.harga }}</td>
+                    <td>{{ row.pembelian.id_pembelian }}</td>
+                    <td>{{ row.user.nama }}</td>
+                    <td>{{ row.barang.nama_barang }}</td>
+                    <td>{{ row.barang.harga }}</td>
                  
                     <!-- <td>{{ row.3 }}</td> -->
-                    <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editPembelian{{ row.0 }}">Edit</button></td>
-                    <td><a href="/hapus-pembelian/{{row[0]}}" class="btn btn-danger" role="button">Hapus</a></td>
+                    <td><button type="button" class="btn btn-warning" data-toggle="modal" role="button" data-target="#editPembelian{{ row.pembelian.id_pembelian }}">Edit</button></td>
+                    <td><a href="/hapus-pembelian/{{row.pembelian.id_pembelian}}" class="btn btn-danger" role="button">Hapus</a></td>
                   </tr>
 
 
                  <!-- MODAL EDIT DATA -->
                   <div class="container">
                     <!-- Modal -->
-                    <div class="modal fade" id="editPembelian{{ row.0 }}" role="dialog">
+                    <div class="modal fade" id="editPembelian{{ row.pembelian.id_pembelian }}" role="dialog">
                       <div class="modal-dialog">
                       
                         <!-- Modal content-->
@@ -61,17 +74,17 @@
                             <div class="container">
                                 <div class="col-sm-5">
                                 <h2>Ubah Data Pembelian</h2>
-                                  <form action="#" method="post">
+                                  <form action="{{ url_for('pembelian.edit_pembelian') }}" method="post">
                                       <div class="form-group">
-                                        <input type="hidden" name="id_pembelian"  value="{{row[0]}}" class="form-control" />
+                                        <input type="hidden" name="id_pembelian"  value="{{row.pembelian.id_pembelian}}" class="form-control" />
                                       </div>
                                       <div class="form-group">
                                         <label>Nama User:</label> 
                                         <select name= "id_user" class="form-control" placeholder="Pilih Nama User" required>
                                           <!-- Menambahkan dari table row lalu menmbahkan dari table User  -->
-                                          <option hidden value="{{row.10}}" selected>{{ row.11 }}</option>  
+                                          <option hidden value="{{row.pembelian.id_user}}" selected>{{ row.user.nama }}</option>  
                                           {% for i in user %}
-                                            <option value= "{{i.0}}"> {{i.1}}</option>
+                                            <option value= "{{i.id_user}}"> {{i.nama}}</option>
                                           {% endfor %}
                                       </select>
                                       </div>
@@ -79,10 +92,10 @@
                                         <label>Nama Barang:</label> 
                                         <select name= "id_barang" class="form-control" placeholder="Pilih Nama Barang" required>
                                           <!-- Menambahkan dari table row lalu menmbahkan dari table Barang  -->
-                                          <option hidden value="{{row.5}}">{{ row.6 }}</option>  
+                                          <option hidden value="{{row.pembelian.id_barang}}">{{ row.barang.nama_barang }}</option>  
                                           {% for i in barang %}
-                                            {% if i.4 == 'Tersedia' %}
-                                              <option value= "{{i.0}}"> {{i.1}}</option> 
+                                            {% if i.barang.status == 'Tersedia' %}
+                                              <option value= "{{i.barang.id_barang}}"> {{i.barang.nama_barang}}</option> 
                                             {% endif %}
                                           {% endfor %}
                                       </select>
@@ -134,14 +147,14 @@
               <div class="container">
                   <div class="col-sm-5">
                   <h2 style="text-align: center; margin-top: 0;">Tambah Data Pembelian</h2><br>
-                      <form action="#" method="post">
+                      <form action="{{ url_for('pembelian.tambah_pembelian') }}" method="post">
                         
                         <div class="form-group">
                           <label>Nama User:</label> 
                           <select name="id_user" class="form-control" placeholder="Pilih Nama User" required>
                             <option value="" selected>-Pilih-</option> 
                             {% for i in user %}
-                              <option value= "{{i.0}}"> {{i.1}}</option>
+                              <option value= "{{i.id_user}}"> {{i.nama}}</option>
                             {% endfor %}
                           </select>
                         </div>
@@ -150,8 +163,8 @@
                           <select name="id_barang" class="form-control" placeholder="Pilih Nama Barang" required>
                             <option value="" selected>-Pilih-</option> 
                             {% for i in barang %}
-                              {% if i.4 == 'Tersedia' %}
-                              <option value= "{{i.0}}"> {{i.1}}</option> 
+                              {% if i.barang.status == 'Tersedia' %}
+                              <option value= "{{i.barang.id_barang}}"> {{i.barang.nama_barang}}</option> 
                               {% endif %}
                             {% endfor %}
                           </select>

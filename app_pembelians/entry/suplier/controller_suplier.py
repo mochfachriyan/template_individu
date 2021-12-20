@@ -4,7 +4,7 @@ from app_pembelians.entry.barang import controller_barang, model_barang
 from app_pembelians.entry.suplier import model_suplier
 from flask import jsonify, request, redirect, url_for, flash
 from app_pembelians import db
-import xlrd, os
+import os
 
 
 # -------------------------------- MENAMPILKAN SEMUA DATA SUPLIER --------------------------------#

@@ -13,7 +13,7 @@ def barangDataJson():
   data = formatArray(barang) 
   return response.success(data, "success")
 
-
+# Menampilkan semua data yang sudah di join dari tabel suplier
 def barangData(): 
   query = model_barang.joinBarangSUplier()
   return query
@@ -31,7 +31,7 @@ def tambahBarang():
   flash('You have successfully created a new Barang')
   return redirect(url_for('barang.barang'))
 
-# -------------------------------- EDIT DATA SUPLIER --------------------------------#
+# -------------------------------- EDIT DATA BARANG --------------------------------#
 def editBarang():
   barang = model_barang.barang.query.get(request.form.get('id_barang'))
   barang.nama_barang = request.form['nama']
@@ -43,7 +43,7 @@ def editBarang():
   flash("barang Updated Successfully")
   return redirect(url_for('barang.barang'))
 
-# -------------------------------- HAPUS DATA SUPLIER --------------------------------#
+# -------------------------------- HAPUS DATA BARANG --------------------------------#
 def hapusBarang(id_barang):
   barang = model_barang.barang.query.get(id_barang)
   db.session.delete(barang)
